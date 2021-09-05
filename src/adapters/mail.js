@@ -39,10 +39,10 @@ export const sendMail = (to, subject, content) => {
                 pass: account.pass
             }
         });
-
+//
         // Creamos el mensaje, en este caso en HTML
         const message = {
-            from: 'Neoland <demo@bootcamp.com>',
+            from: 'Immosensing <immosensing@gmail.com>',
             to, // se lo enviamos a quien nos dice
             subject, // ponemos el asunto
             html: content // ponemos el contenido
