@@ -42,7 +42,7 @@ export const loginJWTController = (req, res) => {
 /**
  * Este controller se encarga de registrar a un usuario en nuestro sistema
  */
-export const registerUserController = (req, res) => {
+ export const registerUserController = async (req, res) => {
     // deconstrucción del objeto body para quedarme con sus atributos
     // email, password
     const { email, password } = req.body;
@@ -53,15 +53,17 @@ export const registerUserController = (req, res) => {
         // codifico la password para guardarla en BBDD
         const passEncoded = encodePassword(password);
         // creo al usuario en la BBDD
-        registerUser(email, passEncoded);
+        await registerUser(email, passEncoded);
         // genero un token random para el email
         const tokenEmailVerification = generateRandomEmailToken();
         // registro el token en la BBDD asociándolo al email
         registerToken(tokenEmailVerification, email);
         // envío el email de registro con un link apuntando al front, donde le pase el token para poder validarlo cuando el usuario haga click
+
         sendMail(email, 'Verifica tu cuenta para seguir con el registro', `<a href="http://localhost:3000/validate-mail?token=${tokenEmailVerification}">Verificar</a>`)
+
         //devuelvo al cliente un 201
-        res.status(201).send();
+        res.status(201).send('Usuario creado');
     } else {
         // si el usuario ya existe mando al cliente un 409 (conflict), indicando que el usuario 
         // ya existe

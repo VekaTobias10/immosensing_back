@@ -16,4 +16,4 @@ app.use('/user', userRouter);
 app.use('/auth', authRouter);
 
  // levanto el servidor en el puerto 4567
-app.listen(4567, () => console.log('Server Started'))
+app.listen(3001, () => console.log('Server Started'))
