@@ -39,7 +39,7 @@ export const sendMail = (to, subject, content) => {
                 pass: account.pass
             }
         });
-
+//
         // Creamos el mensaje, en este caso en HTML
         const message = {
             from: 'Immosensing <immosensing@gmail.com>',
