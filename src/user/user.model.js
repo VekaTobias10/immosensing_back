@@ -7,6 +7,11 @@
  * LISTA DE USUARIOS EN MEMORIA COMO SI FUESE UNA COLLECTION DE 
  * BBDD
  */
+
+import { MongoClient } from "mongodb";
+
+const DATABASE_URL = 'mongodb+srv://immo_company:Q2DfwuJLeS3cyZld@immosensingapp.xxx32.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+
 const userList = [
     {
         email: 'blabla@bla.com',
@@ -21,7 +26,6 @@ const userList = [
         status: 'SUCCESS'
     }
 ]
-
 
 /**
  * Esta función va a buscar los datos a 
@@ -48,12 +52,30 @@ export const getUserInfoById = (userId) => {
  * Crea un usuario en donde se guardan los datos. La password ya vendra codificada
  * Tenemos que poner el status para que se sepa que está pending validation
  */
-export const registerUser = (email, password) => {
-    userList.push({
-        email,
-        password,
-        status: 'PENDING_EMAIL_VALIDATION'
-    })
+ export async function registerUser(email, password) {
+
+    console.log("primer console")
+
+    // const authInfo = user.split(' ');
+
+    // const decodeAuthInfo = Buffer.from(authInfo[1], 'base64').toString();
+
+    // const userInfo = decodeAuthInfo.split(':');
+
+    const client = await MongoClient.connect(DATABASE_URL);
+
+    console.log("segundo console")
+    // const query = { email: userInfo[0], password: userInfo[1] }
+
+    const query = { email: email, password: password }
+
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .insertOne(query)
+        console.log("tercer console")
+        client.close();
+    if (data !== null) return true;
+
 }
 
 
@@ -65,3 +87,7 @@ export const updateUserMailVerification = (email) => {
     const i = userList.findIndex(u => u.email.toLowerCase() === email?.toLowerCase());
     userList[i].status = 'SUCCESS';
 }
+
+
+
+

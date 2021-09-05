@@ -16,3 +16,7 @@ export const retrieveUserInfoCtrl = (req, res) => {
     // Envio al cliente que realizo la petición los datos del usuario
     res.send(userInfo);
 }
+
+
+
+
