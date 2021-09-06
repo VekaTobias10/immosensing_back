@@ -38,6 +38,8 @@ export const getUserInfoByIdAndPassword = (userId, password) => {
         && u.status === 'SUCCESS');
 }
 
+
+
 /**
  * Esta función va a buscar los datos a 
  * mi sistema de persistencia de datos y devuelve la entidad
@@ -87,6 +89,8 @@ export const updateUserMailVerification = (email) => {
     const i = userList.findIndex(u => u.email.toLowerCase() === email?.toLowerCase());
     userList[i].status = 'SUCCESS';
 }
+
+// updateOne de ese email solo cambiando el status a success
 
 
 
