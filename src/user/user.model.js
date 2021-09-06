@@ -67,11 +67,11 @@ export const getUserInfoById = (userId) => {
     console.log("segundo console")
     // const query = { email: userInfo[0], password: userInfo[1] }
 
-    const query = { email: email, password: password }
+    const user = { email: email, password: password, status: "PENDING_EMAIL_VALIDATION" }
 
     const data = await client.db('immosensingddbb')
         .collection('user')
-        .insertOne(query)
+        .insertOne(user)
         console.log("tercer console")
         client.close();
     if (data !== null) return true;

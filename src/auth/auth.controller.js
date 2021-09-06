@@ -58,6 +58,7 @@ export const loginJWTController = (req, res) => {
         const tokenEmailVerification = generateRandomEmailToken();
         // registro el token en la BBDD asociándolo al email
         registerToken(tokenEmailVerification, email);
+        // con mi base de datos 
         // envío el email de registro con un link apuntando al front, donde le pase el token para poder validarlo cuando el usuario haga click
 
         sendMail(email, 'Verifica tu cuenta para seguir con el registro', `<a href="http://localhost:3000/validate-mail?token=${tokenEmailVerification}">Verificar</a>`)
