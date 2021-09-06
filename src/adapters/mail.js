@@ -31,15 +31,15 @@ export const sendMail = (to, subject, content) => {
 
         // Creamos la conexión de transporte con nuestro servidor SMTP
         const transporter = nodemailer.createTransport({
-            host: account.smtp.host, // en real sería algo como smtp.gmail.com (servidor SMTP de Gmail)
-            port: account.smtp.port, // en real podría ser 25 (Servidor por defecto de un SMTP)
-            secure: account.smtp.secure, // si utilizamos la parte segura del protocolo SMTP o no
+            host: "smtp.gmail.com", // en real sería algo como smtp.gmail.com (servidor SMTP de Gmail)
+            port: 465, // en real podría ser 25 (Servidor por defecto de un SMTP)
+            secure: true, // si utilizamos la parte segura del protocolo SMTP o no
             auth: { // usuario y pass (ej: xxx@gmail.com)
-                user: account.user,
-                pass: account.pass
+                user: "immosensing@gmail.com",
+                pass: "immo2021sensing"
             }
         });
-//
+//configurar cuenta de gmail
         // Creamos el mensaje, en este caso en HTML
         const message = {
             from: 'Immosensing <immosensing@gmail.com>',
