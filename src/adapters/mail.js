@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer'; // importamos la librería para enviar emai
 /**
  * Funcion que envía el contenido de un mail (content) con el asunto (subject)
  * a la dirección de destino (to)
- * cambie algo : veka
+ * 
  */
 
 export const sendMail = (to, subject, content) => {
