@@ -12,30 +12,41 @@ import { MongoClient } from "mongodb";
 
 const DATABASE_URL = 'mongodb+srv://immo_company:Q2DfwuJLeS3cyZld@immosensingapp.xxx32.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-const userList = [
-    {
-        email: 'blabla@bla.com',
-        password: '123456',
-        age: 21,
-        status: 'SUCCESS'
-    },
-    {
-        email: 'bleble@ble.com',
-        password: '1234567',
-        age: 22,
-        status: 'SUCCESS'
-    }
-]
+// const userList = [
+//     {
+//         email: 'blabla@bla.com',
+//         password: '123456',
+//         age: 21,
+//         status: 'SUCCESS'
+//     },
+//     {
+//         email: 'bleble@ble.com',
+//         password: '1234567',
+//         age: 22,
+//         status: 'SUCCESS'
+//     }
+// ]
 
 /**
  * Esta función va a buscar los datos a 
  * mi sistema de persistencia de datos y devuelve la entidad
  * usuario que corresponda con email y password o undefined si no lo encuentra
  */
-export const getUserInfoByIdAndPassword = (userId, password) => {
-    return userList.find(u => u.email.toLowerCase() === userId?.toLowerCase()
-        && u.password === password
-        && u.status === 'SUCCESS');
+// export const getUserInfoByIdAndPassword = (userId, password) => {
+//     return userList.find(u => u.email.toLowerCase() === userId?.toLowerCase()
+//         && u.password === password
+//         && u.status === 'SUCCESS');
+// }
+
+export async function getUserInfoByIdAndPassword(email, password) {
+
+    const client = await MongoClient.connect(DATABASE_URL);
+    const userByIdandPassword = { email, password }
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .findOne(userByIdandPassword)
+        client.close();
+    return data;
 }
 
 
@@ -45,9 +56,24 @@ export const getUserInfoByIdAndPassword = (userId, password) => {
  * mi sistema de persistencia de datos y devuelve la entidad
  * usuario que corresponda con email o undefined si no lo encuentra
  */
-export const getUserInfoById = (userId) => {
-    return userList.find(u => u.email.toLowerCase() === userId?.toLowerCase() && u.status === 'SUCCESS');
+// export const getUserInfoById = (userId) => {
+//     return userList.find(u => u.email.toLowerCase() === userId?.toLowerCase() && u.status === 'SUCCESS');
+// }
+
+export async function getUserInfoById(userId) {
+
+    const client = await MongoClient.connect(DATABASE_URL);
+    const userById = { email: userId, status:'SUCCESS' }
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .findOne(userById)
+        client.close();
+    return data;
 }
+
+
+
+
 
 
 /**
@@ -57,12 +83,6 @@ export const getUserInfoById = (userId) => {
  export async function registerUser(email, password) {
 
     console.log("primer console")
-
-    // const authInfo = user.split(' ');
-
-    // const decodeAuthInfo = Buffer.from(authInfo[1], 'base64').toString();
-
-    // const userInfo = decodeAuthInfo.split(':');
 
     const client = await MongoClient.connect(DATABASE_URL);
 
@@ -84,14 +104,28 @@ export const getUserInfoById = (userId) => {
 /**
  * Cambia el estado del usuario a SUCCESS
  */
-export const updateUserMailVerification = (email) => {
-    console.log(email);
-    const i = userList.findIndex(u => u.email.toLowerCase() === email?.toLowerCase());
-    userList[i].status = 'SUCCESS';
-}
+// export const updateUserMailVerification = (email) => {
+//     console.log(email);
+//     const i = userList.findIndex(u => u.email.toLowerCase() === email?.toLowerCase());
+//     userList[i].status = 'SUCCESS';
+// }
 
 // updateOne de ese email solo cambiando el status a success
 
+export async function updateUserMailVerification(email) {
+
+    const client = await MongoClient.connect(DATABASE_URL);
+
+    const userUpdate = {
+     $set: {status: "SUCCESS" }
+    }
+
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .updateOne({email},userUpdate)
+        client.close();
+    return data;
+}
 
 
 

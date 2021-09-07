@@ -47,9 +47,9 @@ export const loginJWTController = (req, res) => {
     // email, password
     const { email, password } = req.body;
     // obtengo la información de mi modelo del usuario por email
-    const userInfo = getUserInfoById(email);
+    const userInfo = await getUserInfoById(email);
     // compruebo que exista el usuario y si no existe puedo darlo de alta 
-    if (userInfo === undefined) {
+    if (userInfo === null) {
         // codifico la password para guardarla en BBDD
         const passEncoded = encodePassword(password);
         // creo al usuario en la BBDD
@@ -57,7 +57,7 @@ export const loginJWTController = (req, res) => {
         // genero un token random para el email
         const tokenEmailVerification = generateRandomEmailToken();
         // registro el token en la BBDD asociándolo al email
-        registerToken(tokenEmailVerification, email);
+        await registerToken(tokenEmailVerification, email);
         // con mi base de datos 
         // envío el email de registro con un link apuntando al front, donde le pase el token para poder validarlo cuando el usuario haga click
 
@@ -74,14 +74,14 @@ export const loginJWTController = (req, res) => {
 }
 
 
-export const validateUserController = (req, res) => {
+export  const validateUserController = async (req, res) => {
     // llamo a mi modelo para que me diga si el token es valido o no
     console.log(req.query.token);
-    const email = validateToken(req.query.token);
+    const email = await validateToken(req.query.token);
     // si existe email es que es válido, sino no es válido
     if (email !== undefined) {
         // actualizo el estado del usuario en BBDD a SUCCESS
-        updateUserMailVerification(email);
+        await updateUserMailVerification(email);
         //devuelvo al cliente un 200
         res.status(200).send();
     } else {
