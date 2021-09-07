@@ -41,7 +41,7 @@ const DATABASE_URL = 'mongodb+srv://immo_company:Q2DfwuJLeS3cyZld@immosensingapp
 export async function getUserInfoByIdAndPassword(email, password) {
 
     const client = await MongoClient.connect(DATABASE_URL);
-    const userByIdandPassword = { email, password }
+    const userByIdandPassword = {email, password }
     const data = await client.db('immosensingddbb')
         .collection('user')
         .findOne(userByIdandPassword)
@@ -80,21 +80,15 @@ export async function getUserInfoById(userId) {
  * Crea un usuario en donde se guardan los datos. La password ya vendra codificada
  * Tenemos que poner el status para que se sepa que está pending validation
  */
- export async function registerUser(email, password) {
-
-    console.log("primer console")
+ export async function registerUser(name, lastName ,email, password) {
 
     const client = await MongoClient.connect(DATABASE_URL);
 
-    console.log("segundo console")
-    // const query = { email: userInfo[0], password: userInfo[1] }
-
-    const user = { email: email, password: password, status: "PENDING_EMAIL_VALIDATION" }
+    const user = { name, lastName, email, password, status: "PENDING_EMAIL_VALIDATION" }
 
     const data = await client.db('immosensingddbb')
         .collection('user')
         .insertOne(user)
-        console.log("tercer console")
         client.close();
     if (data !== null) return true;
 

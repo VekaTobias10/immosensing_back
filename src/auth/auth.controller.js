@@ -16,16 +16,17 @@ import { sendMail } from '../adapters/mail.js'; // importo mi adaptador de email
  * Este controller se encarga de validar el user y el password de un usuario
  * y si está todo OK genera un JWT que se lo devuelve al usuario
  */
-export const loginJWTController = (req, res) => {
+export const loginJWTController = async (req, res) => {
     // deconstrucción del objeto body para quedarme con sus atributos
     // email, password
     const { email, password } = req.body;
     // codifico la password para hacer la query con lo que hay en BBDD
     const passEncoded = encodePassword(password);
     // obtengo la información de mi modelo del usuario por email
-    const userInfo = getUserInfoByIdAndPassword(email, passEncoded);
+    const userInfo = await getUserInfoByIdAndPassword(email, passEncoded);
     // compruebo que exista el usuario y que las password coincidan 
-    if (userInfo !== undefined) {
+    console.log(userInfo);
+    if (userInfo !== null) {
         // generar un token JWT 
         const token = jwt.sign({ user: email }, secret);
         //devolverselo al usuario en una propiedad llamada access_token
@@ -45,7 +46,7 @@ export const loginJWTController = (req, res) => {
  export const registerUserController = async (req, res) => {
     // deconstrucción del objeto body para quedarme con sus atributos
     // email, password
-    const { email, password } = req.body;
+    const { name, lastName, email, password } = req.body;
     // obtengo la información de mi modelo del usuario por email
     const userInfo = await getUserInfoById(email);
     // compruebo que exista el usuario y si no existe puedo darlo de alta 
@@ -53,7 +54,7 @@ export const loginJWTController = (req, res) => {
         // codifico la password para guardarla en BBDD
         const passEncoded = encodePassword(password);
         // creo al usuario en la BBDD
-        await registerUser(email, passEncoded);
+        await registerUser(name, lastName,email, passEncoded);
         // genero un token random para el email
         const tokenEmailVerification = generateRandomEmailToken();
         // registro el token en la BBDD asociándolo al email
