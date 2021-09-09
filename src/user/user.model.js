@@ -41,11 +41,11 @@ const DATABASE_URL = 'mongodb+srv://immo_company:Q2DfwuJLeS3cyZld@immosensingapp
 export async function getUserInfoByIdAndPassword(email, password) {
 
     const client = await MongoClient.connect(DATABASE_URL);
-    const userByIdandPassword = {email, password }
+    const userByIdandPassword = { email, password }
     const data = await client.db('immosensingddbb')
         .collection('user')
         .findOne(userByIdandPassword)
-        client.close();
+    client.close();
     return data;
 }
 
@@ -63,11 +63,11 @@ export async function getUserInfoByIdAndPassword(email, password) {
 export async function getUserInfoById(userId) {
 
     const client = await MongoClient.connect(DATABASE_URL);
-    const userById = { email: userId, status:'SUCCESS' }
+    const userById = { email: userId, status: 'SUCCESS' }
     const data = await client.db('immosensingddbb')
         .collection('user')
         .findOne(userById)
-        client.close();
+    client.close();
     return data;
 }
 
@@ -80,7 +80,7 @@ export async function getUserInfoById(userId) {
  * Crea un usuario en donde se guardan los datos. La password ya vendra codificada
  * Tenemos que poner el status para que se sepa que está pending validation
  */
- export async function registerUser(name, lastName ,email, password) {
+export async function registerUser(name, lastName, email, password) {
 
     const client = await MongoClient.connect(DATABASE_URL);
 
@@ -89,7 +89,7 @@ export async function getUserInfoById(userId) {
     const data = await client.db('immosensingddbb')
         .collection('user')
         .insertOne(user)
-        client.close();
+    client.close();
     if (data !== null) return true;
 
 }
@@ -104,22 +104,65 @@ export async function getUserInfoById(userId) {
 //     userList[i].status = 'SUCCESS';
 // }
 
-// updateOne de ese email solo cambiando el status a success
+// updateOne de ese email solo cambiando el status a pending_second_register
 
 export async function updateUserMailVerification(email) {
 
     const client = await MongoClient.connect(DATABASE_URL);
 
     const userUpdate = {
-     $set: {status: "SUCCESS" }
+        $set: { status: "PENDING_SECOND_REGISTER" }
     }
 
     const data = await client.db('immosensingddbb')
         .collection('user')
-        .updateOne({email},userUpdate)
-        client.close();
+        .updateOne({ email }, userUpdate)
+    client.close();
     return data;
 }
 
 
+// actualizando datos del usuario con el segundo registro
+
+export async function updatedUserInfo(email, userData) {
+    console.log(email + "email");
+    const client = await MongoClient.connect(DATABASE_URL);
+
+    const options = { upsert: false }; //Si no encuentra nada que coincida con el email devuelve null
+    const userUpdate = {
+        $set: {
+            estadoCivil: userData.estadoCivil,
+            hijos: userData.hijos,
+            tipoDeZonaPreferido: userData.tipoDeZonaPreferido,
+            modalidadTrabajo: userData.modalidadTrabajo,
+            address: userData.address,
+            rangoAlquiler: userData.rangoAlquiler
+        }
+    }
+    console.log(userUpdate + "updateUser");
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .updateOne({ email }, userUpdate, options)
+    client.close();
+    console.log(data + "updateUserInfo");
+    return data !== null;
+}
+
+
+//Cambia a success cuando hace el segundo registro
+
+export async function updateUserFinishedRegister(email) {
+
+    const client = await MongoClient.connect(DATABASE_URL);
+    const userUpdate = {
+        $set: { status: "SUCCESS" }
+    }
+    console.log(userUpdate);
+    const data = await client.db('immosensingddbb')
+        .collection('user')
+        .updateOne({ email }, userUpdate)
+    client.close();
+    console.log(data);
+    return data;
+}
 

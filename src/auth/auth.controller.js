@@ -31,7 +31,8 @@ export const loginJWTController = async (req, res) => {
         const token = jwt.sign({ user: email }, secret);
         //devolverselo al usuario en una propiedad llamada access_token
         res.send({
-            access_token: token
+            access_token: token,
+            status: userInfo.status
         });
     } else {
         res.status(404).send('Usuario/Contraseña erróneos');
