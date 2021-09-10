@@ -135,7 +135,6 @@ export async function updatedUserInfo(email, userData) {
             hijos: userData.hijos,
             tipoDeZonaPreferido: userData.tipoDeZonaPreferido,
             modalidadTrabajo: userData.modalidadTrabajo,
-            address: userData.address,
             rangoAlquiler: userData.rangoAlquiler
         }
     }
