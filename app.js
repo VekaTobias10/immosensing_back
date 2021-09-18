@@ -2,7 +2,8 @@ import express from 'express'; // importo express para hacer una app
 import cors from 'cors'; // importo el cors para que los navegadores me puedan llamar
 import userRouter from './src/user/user.router.js';
 import authRouter from './src/auth/auth.router.js';
-
+import infoBcnRouter from './src/districtsBcn/district.router.js';
+import infoBcnBarriosRouter from './src/barriosBcn/barrios.router.js';
 
 
 const app = express(); // creo una app
@@ -15,5 +16,9 @@ app.use('/user', userRouter);
 // Le indico a la app que en el path /login hay un router que lo gestiona
 app.use('/auth', authRouter);
 
- // levanto el servidor en el puerto 4567
+app.use('/infoBcn', infoBcnRouter);
+//Preferencias del usuario
+app.use('/preferences', infoBcnBarriosRouter);
+
+ // levanto el servidor en el puerto 3001
 app.listen(3001, () => console.log('Server Started'))
