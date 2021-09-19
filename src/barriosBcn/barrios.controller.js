@@ -1,4 +1,4 @@
-import {getInfoBarriosBcn} from './barrios.model.js';
+import {getInfoBarriosBcn,getNeighborhoodInfoByName} from './barrios.model.js';
 
 
  export const RetrieveBarriosInfo = async (req, res) =>{
@@ -6,6 +6,18 @@ import {getInfoBarriosBcn} from './barrios.model.js';
      const BarrBcn = infoBarrBcn.sort(() => 0.5 - Math.random());
      res.send(BarrBcn.slice(0,3));
  }
+
+export const getNeighborhoodByNameController = async(req,res)=>{
+    const name = req.params.name;
+    console.log(name);
+    const barrInfoBcn = await getNeighborhoodInfoByName(name);
+    console.log(barrInfoBcn);
+    if(barrInfoBcn!==null){
+        res.send(barrInfoBcn)
+    } else{
+        res.status(404).send(`${req.params.name} NOT FOUND`)
+    }
+};
 
 // 3 eleementos aleatorios de un array
 
