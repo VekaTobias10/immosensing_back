@@ -4,7 +4,7 @@ import userRouter from './src/user/user.router.js';
 import authRouter from './src/auth/auth.router.js';
 import infoBcnRouter from './src/districtsBcn/district.router.js';
 import infoBcnBarriosRouter from './src/barriosBcn/barrios.router.js';
-
+import infoBcnBarriosByNameRouter from './src/barriosBcn/barrios.router.js';
 
 const app = express(); // creo una app
 
@@ -17,8 +17,16 @@ app.use('/user', userRouter);
 app.use('/auth', authRouter);
 
 app.use('/infoBcn', infoBcnRouter);
-//Preferencias del usuario
+
 app.use('/preferences', infoBcnBarriosRouter);
+
+app.use('/preferences/barrios', infoBcnBarriosByNameRouter);
+
+
+app.use('/static', express.static('public-static'));
+
+
+
 
  // levanto el servidor en el puerto 3001
 app.listen(3001, () => console.log('Server Started'))
