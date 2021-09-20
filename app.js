@@ -26,7 +26,5 @@ app.use('/preferences/barrios', infoBcnBarriosByNameRouter);
 app.use('/static', express.static('public-static'));
 
 
-
-
  // levanto el servidor en el puerto 3001
 app.listen(3001, () => console.log('Server Started'))
