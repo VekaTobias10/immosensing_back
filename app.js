@@ -7,6 +7,7 @@ import infoBcnBarriosRouter from './src/barriosBcn/barrios.router.js';
 import infoBcnBarriosByNameRouter from './src/barriosBcn/barrios.router.js';
 
 const app = express(); // creo una app
+const port = process.env.PORT || 3001;
 
 app.use(cors()); // librería que implementa el cors en mi backend
 app.use(express.json()) // permito al app que formatee el body en JSON
@@ -27,4 +28,4 @@ app.use('/static', express.static('public-static'));
 
 
  // levanto el servidor en el puerto 3001
-app.listen(3001, () => console.log('Server Started'))
+app.listen(port, () => console.log('Server Started'))
