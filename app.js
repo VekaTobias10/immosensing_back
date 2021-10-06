@@ -7,7 +7,7 @@ import infoBcnBarriosRouter from './src/barriosBcn/barrios.router.js';
 import infoBcnBarriosByNameRouter from './src/barriosBcn/barrios.router.js';
 
 const app = express(); // creo una app
-const port = process.env.PORT || 3001;
+
 
 app.use(cors()); // librería que implementa el cors en mi backend
 app.use(express.json()) // permito al app que formatee el body en JSON
@@ -26,17 +26,19 @@ app.use('/preferences/barrios', infoBcnBarriosByNameRouter);
 
 app.use('/static', express.static('public-static'));
 
-if (process.env.NODE_ENV === 'production') {
-    // Exprees will serve up production assets
-    app.use(express.static('client/build'));
+// if (process.env.NODE_ENV === 'production') {
+//     // Exprees will serve up production assets
+//     app.use(express.static('client/build'));
   
-    // Express serve up index.html file if it doesn't recognize route
-    const path = require('path');
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-  }
+//     // Express serve up index.html file if it doesn't recognize route
+//     const path = require('path');
+//     app.get('*', (req, res) => {
+//       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//     });
+//   }
 
 
  // levanto el servidor en el puerto 3001
-app.listen(port, () => console.log('Server Started'))
+app.listen(process.env.PORT || 3001, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
