@@ -64,6 +64,7 @@ export const loginJWTController = async (req, res) => {
         // envío el email de registro con un link apuntando al front, donde le pase el token para poder validarlo cuando el usuario haga click
 
         sendMail(email, 'Verifica tu cuenta para seguir con el registro', `<a href="https://immosensingapp.herokuapp.com/validate-mail?token=${tokenEmailVerification}">Verificar</a>`)
+        // sendMail(email, 'Verifica tu cuenta para seguir con el registro', `<a href="http://localhost:3000/validate-mail?token=${tokenEmailVerification}">Verificar</a>`)
 
         //devuelvo al cliente un 201
         res.status(201).send('Usuario creado');
