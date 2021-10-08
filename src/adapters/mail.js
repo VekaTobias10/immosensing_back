@@ -35,10 +35,11 @@ export const sendMail = (to, subject, content) => {
             port: 465, // en real podría ser 25 (Servidor por defecto de un SMTP)
             secure: true, // si utilizamos la parte segura del protocolo SMTP o no
             auth: { // usuario y pass (ej: xxx@gmail.com)
-                type: 'OAuth2',
+                // type: 'OAuth2',
                 user: "immosensing@gmail.com",
-                // pass: "immo2021sensing",
-                accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
+                pass: "cmernnydfyreremq",
+                // pass:"immo2021sensing"
+                // accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
             }
         });
 //configurar cuenta de gmail
